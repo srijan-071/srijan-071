@@ -21,6 +21,8 @@
 
 ## 🧠 About Me
 
+> Building in public • Contributing to open source • Shipping consistently
+
 I'm a developer who enjoys turning **ideas into real, usable software**.
 
 - 🚀 Building projects across **Web Development, AI/ML & Software Engineering**
