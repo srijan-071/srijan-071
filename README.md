@@ -59,31 +59,31 @@ Interactive visualizations for algorithms and data structures.
 </td>
 <td width="50%">
 
-#### 🤖 <a href="https://github.com/srijan-071/AI-Messaging">AI-Messaging</a>
+#### 🕵️ <a href="https://github.com/srijan-071/caseboard-investigations">Caseboard Investigations</a>
 
-An AI-focused messaging project exploring intelligent communication workflows.
+A structured workspace for organizing investigation cases, evidence, and related information.
 
-<b>Focus:</b> AI · automation · software
+<b>Focus:</b> React · TypeScript · data organization
 
 </td>
 </tr>
 <tr>
 <td width="50%">
 
-#### 🌐 <a href="https://github.com/srijan-071/frontend-class">Frontend Class</a>
+#### 🛍️ <a href="https://github.com/srijan-071/E-commerce">Beauty E-Commerce</a>
 
-A collection of frontend experiments, layouts and UI implementations.
+A full-stack marketplace project with a React frontend and FastAPI backend.
 
-<b>Focus:</b> HTML · CSS · JavaScript · UI
+<b>Focus:</b> React · FastAPI · PostgreSQL · Redis
 
 </td>
 <td width="50%">
 
-#### ⚙️ More experiments
+#### 🤖 <a href="https://github.com/srijan-071/AI-Messaging">AI-Messaging</a>
 
-I keep smaller ideas, experiments and learning projects across my repositories.
+An AI-focused messaging project exploring intelligent communication workflows.
 
-<a href="https://github.com/srijan-071?tab=repositories">Browse all repositories →</a>
+<b>Focus:</b> AI · automation · software
 
 </td>
 </tr>
