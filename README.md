@@ -95,7 +95,6 @@ An AI-focused messaging project exploring intelligent communication workflows.
 
 <div align="center">
 
-<img src="https://github-readme-stats.vercel.app/api?username=srijan-071&show_icons=true&hide_border=true&theme=transparent&rank_icon=github&include_all_commits=true" height="170" alt="GitHub statistics">
 <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=srijan-071&layout=compact&hide_border=true&theme=transparent&langs_count=8" height="170" alt="Top languages">
 
 <br><br>
