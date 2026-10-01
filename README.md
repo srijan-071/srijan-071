@@ -99,13 +99,11 @@ An AI-focused messaging project exploring intelligent communication workflows.
 
 <br><br>
 
-<a href="https://github.com/srijan-071">
-<img src="https://img.shields.io/badge/2026%20GitHub%20Contributions-1%2C174-238636?style=for-the-badge&logo=github&logoColor=white" alt="1,174 GitHub contributions in 2026">
-</a>
+<img src="https://raw.githubusercontent.com/srijan-071/srijan-071/main/assets/contribution-streak.svg" alt="GitHub contribution streak: 1,174 total contributions, 4 current streak, 13 longest streak" width="760">
 
 <br>
 
-<sub>Contribution count shown here is the 2026 count displayed on the GitHub profile.</sub>
+<sub>Based on the contribution activity shown on the GitHub profile.</sub>
 
 </div>
 
