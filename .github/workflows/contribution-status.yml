@@ -1,0 +1,162 @@
+name: Update contribution status card
+
+on:
+  schedule:
+    - cron: "30 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-card:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout profile
+        uses: actions/checkout@v6
+
+      - name: Fetch GitHub contribution calendar
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python - <<'PY'
+          import datetime, json, os, urllib.request
+
+          today = datetime.datetime.now(datetime.timezone.utc).date()
+          start = datetime.date(today.year, 1, 1)
+
+          query = """
+          query($login:String!, $from:DateTime!, $to:DateTime!) {
+            user(login:$login) {
+              contributionsCollection(from:$from,to:$to) {
+                contributionCalendar {
+                  totalContributions
+                  weeks {
+                    contributionDays {
+                      date
+                      contributionCount
+                    }
+                  }
+                }
+              }
+            }
+          }
+          """
+
+          payload = {
+              "query": query,
+              "variables": {
+                  "login": "srijan-071",
+                  "from": f"{start.isoformat()}T00:00:00Z",
+                  "to": f"{today.isoformat()}T23:59:59Z",
+              },
+          }
+
+          req = urllib.request.Request(
+              "https://api.github.com/graphql",
+              data=json.dumps(payload).encode(),
+              headers={
+                  "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+                  "Content-Type": "application/json",
+                  "User-Agent": "srijan-071-profile-card",
+              },
+          )
+
+          with urllib.request.urlopen(req) as response:
+              data = json.load(response)
+
+          if data.get("errors"):
+              raise SystemExit(json.dumps(data["errors"]))
+
+          calendar = data["data"]["user"]["contributionsCollection"]["contributionCalendar"]
+          days = [
+              day
+              for week in calendar["weeks"]
+              for day in week["contributionDays"]
+          ]
+          counts = {d["date"]: d["contributionCount"] for d in days}
+
+          def streak_from(end):
+              total = 0
+              day = end
+              while counts.get(day.isoformat(), 0) > 0:
+                  total += 1
+                  day -= datetime.timedelta(days=1)
+              return total
+
+          current_end = today
+          if counts.get(today.isoformat(), 0) == 0:
+              current_end = today - datetime.timedelta(days=1)
+
+          current = streak_from(current_end)
+
+          longest = 0
+          run = 0
+          longest_start = None
+          longest_end = None
+          run_start = None
+
+          day = start
+          while day <= today:
+              if counts.get(day.isoformat(), 0) > 0:
+                  if run == 0:
+                      run_start = day
+                  run += 1
+                  if run > longest:
+                      longest = run
+                      longest_start = run_start
+                      longest_end = day
+              else:
+                  run = 0
+              day += datetime.timedelta(days=1)
+
+          current_start = current_end - datetime.timedelta(days=current - 1) if current else None
+
+          def fmt(d):
+              return d.strftime("%b %-d, %Y") if d else "—"
+
+          def esc(value):
+              return str(value).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+          svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="760" height="190" viewBox="0 0 760 190">
+          <rect width="760" height="190" rx="12" fill="#0d1117"/>
+          <line x1="253" y1="18" x2="253" y2="172" stroke="#30363d"/>
+          <line x1="507" y1="18" x2="507" y2="172" stroke="#30363d"/>
+
+          <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" text-anchor="middle">
+            <text x="126" y="62" fill="#58a6ff" font-size="28" font-weight="700">{calendar["totalContributions"]:,}</text>
+            <text x="126" y="91" fill="#f0f6fc" font-size="14" font-weight="600">Total Contributions</text>
+            <text x="126" y="116" fill="#8b949e" font-size="11">{today.year} · Present</text>
+
+            <circle cx="380" cy="62" r="38" fill="none" stroke="#1f6feb" stroke-width="4"/>
+            <text x="380" y="70" fill="#f0f6fc" font-size="22" font-weight="700">{current}</text>
+            <text x="380" y="120" fill="#f0f6fc" font-size="13" font-weight="600">Current Streak</text>
+            <text x="380" y="139" fill="#8b949e" font-size="10">{esc(fmt(current_start))} – {esc(fmt(current_end))}</text>
+
+            <text x="634" y="62" fill="#58a6ff" font-size="28" font-weight="700">{longest}</text>
+            <text x="634" y="91" fill="#f0f6fc" font-size="14" font-weight="600">Longest Streak</text>
+            <text x="634" y="116" fill="#8b949e" font-size="11">{esc(fmt(longest_start))} – {esc(fmt(longest_end))}</text>
+          </g>
+
+          <g transform="translate(380 13)">
+            <path d="M0,-12 C-8,-5 -7,2 0,6 C7,2 8,-5 0,-12 Z" fill="#58a6ff"/>
+            <circle cx="0" cy="-1" r="3" fill="#0d1117"/>
+          </g>
+          </svg>
+          '''
+
+          with open("assets/contribution-streak-v3.svg", "w", encoding="utf-8") as f:
+              f.write(svg)
+          PY
+
+      - name: Commit changed card
+        run: |
+          git add assets/contribution-streak-v3.svg
+          if git diff --cached --quiet -- assets/contribution-streak-v3.svg; then
+            echo "Contribution card is already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: refresh contribution status card"
+          git push
