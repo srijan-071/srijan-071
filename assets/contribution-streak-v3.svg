@@ -11,7 +11,7 @@
   <circle cx="380" cy="62" r="38" fill="none" stroke="#1f6feb" stroke-width="4"/>
   <text x="380" y="70" fill="#f0f6fc" font-size="22" font-weight="700">0</text>
   <text x="380" y="120" fill="#f0f6fc" font-size="13" font-weight="600">Current Streak</text>
-  <text x="380" y="139" fill="#8b949e" font-size="10">— – Oct 8, 2026</text>
+  <text x="380" y="139" fill="#8b949e" font-size="10">— – Oct 9, 2026</text>
 
   <text x="634" y="62" fill="#58a6ff" font-size="28" font-weight="700">252</text>
   <text x="634" y="91" fill="#f0f6fc" font-size="14" font-weight="600">Longest Streak</text>
