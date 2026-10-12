@@ -99,7 +99,7 @@ An AI-focused messaging project exploring intelligent communication workflows.
 
 <br><br>
 
-<img src="https://raw.githubusercontent.com/srijan-071/srijan-071/main/assets/contribution-streak-v3.svg?v=2026-10-12" alt="GitHub contribution streak statistics" width="760">
+<img src="https://raw.githubusercontent.com/srijan-071/srijan-071/main/assets/contribution-streak-v3.svg?v=9ab24dfd1bed39e97fdc8f5bf5fb97cd4af9449b" alt="GitHub contribution streak statistics" width="760">
 
 <br>
 
