@@ -89,9 +89,10 @@ jobs:
 
           current_end = today
           if counts.get(today.isoformat(), 0) == 0:
-              current_end = today - datetime.timedelta(days=1)
+              yesterday = today - datetime.timedelta(days=1)
+              current_end = yesterday if counts.get(yesterday.isoformat(), 0) > 0 else None
 
-          current = streak_from(current_end)
+          current = streak_from(current_end) if current_end else 0
 
           longest = 0
           run = 0
@@ -113,7 +114,7 @@ jobs:
                   run = 0
               day += datetime.timedelta(days=1)
 
-          current_start = current_end - datetime.timedelta(days=current - 1) if current else None
+          current_start = current_end - datetime.timedelta(days=current - 1) if current and current_end else None
 
           def fmt(d):
               return d.strftime("%b %-d, %Y") if d else "—"
@@ -134,7 +135,7 @@ jobs:
             <circle cx="380" cy="62" r="38" fill="none" stroke="#1f6feb" stroke-width="4"/>
             <text x="380" y="70" fill="#f0f6fc" font-size="22" font-weight="700">{current}</text>
             <text x="380" y="120" fill="#f0f6fc" font-size="13" font-weight="600">Current Streak</text>
-            <text x="380" y="139" fill="#8b949e" font-size="10">{esc(fmt(current_start))} – {esc(fmt(current_end))}</text>
+            <text x="380" y="139" fill="#8b949e" font-size="10">{(esc(fmt(current_start)) + " – " + esc(fmt(current_end))) if current else "No active streak yet"}</text>
 
             <text x="634" y="62" fill="#58a6ff" font-size="28" font-weight="700">{longest}</text>
             <text x="634" y="91" fill="#f0f6fc" font-size="14" font-weight="600">Longest Streak</text>
@@ -150,12 +151,32 @@ jobs:
 
           with open("assets/contribution-streak-v3.svg", "w", encoding="utf-8") as f:
               f.write(svg)
+
+          # Bust GitHub's cached README image URL and keep its alt text generic.
+          readme_path = "README.md"
+          with open(readme_path, "r", encoding="utf-8") as f:
+              readme = f.read()
+
+          import re
+          image_url = f"https://raw.githubusercontent.com/srijan-071/srijan-071/main/assets/contribution-streak-v3.svg?v={today.isoformat()}"
+          readme = re.sub(
+              r'https://raw\.githubusercontent\.com/srijan-071/srijan-071/main/assets/contribution-streak-v3\.svg(?:\?v=[^" ]*)?',
+              image_url,
+              readme,
+          )
+          readme = re.sub(
+              r'alt="GitHub contribution streak:[^"]*"',
+              'alt="GitHub contribution streak statistics"',
+              readme,
+          )
+          with open(readme_path, "w", encoding="utf-8") as f:
+              f.write(readme)
           PY
 
       - name: Commit changed card
         run: |
-          git add assets/contribution-streak-v3.svg
-          if git diff --cached --quiet -- assets/contribution-streak-v3.svg; then
+          git add assets/contribution-streak-v3.svg README.md
+          if git diff --cached --quiet -- assets/contribution-streak-v3.svg README.md; then
             echo "Contribution card is already current."
             exit 0
           fi
