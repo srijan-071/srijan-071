@@ -95,11 +95,11 @@ An AI-focused messaging project exploring intelligent communication workflows.
 
 <div align="center">
 
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=srijan-071&layout=compact&hide_border=true&theme=transparent&langs_count=8" height="170" alt="Top languages">
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=srijan-071&layout=compact&hide_border=true&theme=transparent&langs_count=8&cache_seconds=3600" height="170" alt="Top languages">
 
 <br><br>
 
-<img src="https://raw.githubusercontent.com/srijan-071/srijan-071/9ab24dfd1bed39e97fdc8f5bf5fb97cd4af9449b/assets/contribution-streak-v3.svg" alt="GitHub contribution streak statistics" width="760">
+<img src="https://raw.githubusercontent.com/srijan-071/srijan-071/main/assets/contribution-streak-v3.svg?v=20261026" alt="GitHub contribution streak statistics" width="760">
 
 <br>
 
