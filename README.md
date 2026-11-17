@@ -48,7 +48,7 @@ I enjoy taking an idea from a rough concept to a working product. I care about c
 
 **Data, AI/ML & Tools**
 
-<img src="https://skillicons.dev/icons?i=mysql,postgres,mongodb, pytorch,tensorflow,git,github,docker,linux,vscode" alt="Databases, AI and developer tools"/>
+<img src="https://skillicons.dev/icons?i=mysql,postgres,mongodb,pytorch,tensorflow,git,github,docker,linux,vscode" alt="Databases, AI and developer tools"/>
 
 </div>
 
